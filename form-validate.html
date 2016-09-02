@@ -1,0 +1,26 @@
+  
+<form action="http://[your form url from campaign monitor]" method="post" id="subForm">
+        <label for="fieldEmail">Email</label>
+        <input id="fieldEmail" name="cm-[your from class]" type="email" required />
+        <button type="submit">Subscribe</button>
+<div id="nlerror"></div>
+</form>
+  
+  
+  
+  jQuery('#subForm').submit(function (e) {
+      e.preventDefault();
+    jQuery.getJSON(
+        this.action + "?callback=?",
+      jQuery(this).serialize(),
+        function (data) {
+          var errName = jQuery("#nlerror"); //Element selector
+          if (data.Status === 400) {
+            errName.html("Error: " + data.Message); // Put the message content inside div
+            errName.addClass('error-msg'); //add a class to the element
+          } else { // 200
+            errName.html("Success: " + data.Message); // Put the message content inside div
+            errName.addClass('success-msg'); //add a class to the element
+          }
+        });
+    });
